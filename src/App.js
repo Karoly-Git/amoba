@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './css/App.css'
 
-const GRID_WIDTH = 20;
-const GRID_HEIGHT = 20;
+const GRID_WIDTH = 15;
+const GRID_HEIGHT = 15;
 const P1_COLOR = 'yellow';
 const P2_COLOR = 'red';
 const WIN_LIMIT = 3;
@@ -12,6 +12,7 @@ function App() {
   let cols = new Array(GRID_WIDTH).fill(null);
 
   const [player, setPlayer] = useState(1);
+  const [names, setNames] = useState({ nameOne: 'Karoly', nameTwo: 'Joanna' });
   const [scores, setScores] = useState({ playerOne: 0, playerTwo: 0 });
 
   const [grid, setGrid] = useState(Array.from({ length: GRID_HEIGHT }, () => new Array(GRID_WIDTH).fill(null)));
@@ -210,7 +211,7 @@ function App() {
       <h1>{player === 1 ? "Karoly's turn" : "Joanna's turn"}</h1>
       <div className='container'>
         <div className='player-house'>
-          <h2>Karoly</h2>
+          <h2>{names.nameOne}</h2>
           <h3>Score: {scores.playerOne}</h3>
         </div>
         <div className='table'>
@@ -230,7 +231,7 @@ function App() {
           ))}
         </div>
         <div className='player-house'>
-          <h2>Joanna</h2>
+          <h2>{names.nameTwo}</h2>
           <h3>Score: {scores.playerTwo}</h3>
         </div>
       </div>

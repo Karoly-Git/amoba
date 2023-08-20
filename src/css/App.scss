@@ -11,9 +11,11 @@ body {
     display: flex;
     justify-content: center;
     padding: 2rem 0;
-    border: 2px solid black;
 
     .player-house {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       padding: 0 2rem;
     }
 
@@ -30,13 +32,11 @@ body {
           margin: 1.5px;
           background-color: rgb(125, 44, 44);
           background-color: rgb(48, 48, 48);
-          //border: 1px solid rgba(255, 255, 255, 0.2);
-          //border: 1px solid black;
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 2rem;
-          height: 2rem;
+          width: 1.75rem;
+          height: 1.75rem;
           cursor: pointer;
 
           .disk {
