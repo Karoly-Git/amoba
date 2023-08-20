@@ -3,15 +3,17 @@ import './css/App.css'
 
 const GRID_WIDTH = 20;
 const GRID_HEIGHT = 20;
-const P1_COLOR = 'crimson';
-const P2_COLOR = 'green';
-const WIN_LIMIT = 5;
+const P1_COLOR = 'yellow';
+const P2_COLOR = 'red';
+const WIN_LIMIT = 3;
 
 function App() {
   let rows = new Array(GRID_HEIGHT).fill(null);
   let cols = new Array(GRID_WIDTH).fill(null);
 
   const [player, setPlayer] = useState(1);
+  const [scores, setScores] = useState({ playerOne: 0, playerTwo: 0 });
+
   const [grid, setGrid] = useState(Array.from({ length: GRID_HEIGHT }, () => new Array(GRID_WIDTH).fill(null)));
 
 
@@ -28,6 +30,15 @@ function App() {
     }
     if (count >= winLimit) {
       console.log(`Player-${playerNumber} won!`);
+      let newScores = { ...scores };
+      if (playerNumber === 1) {
+        newScores.playerOne++;
+      }
+      if (playerNumber === 2) {
+        newScores.playerTwo++;
+      }
+      setScores(oldScores => oldScores = { ...newScores });
+      //console.log(newScores);
       return;
     }
 
@@ -41,6 +52,15 @@ function App() {
     }
     if (count >= winLimit) {
       console.log(`Player-${playerNumber} won!`);
+      let newScores = { ...scores };
+      if (playerNumber === 1) {
+        newScores.playerOne++;
+      }
+      if (playerNumber === 2) {
+        newScores.playerTwo++;
+      }
+      setScores(oldScores => oldScores = { ...newScores });
+      //console.log(newScores);
       return;
     }
   }
@@ -181,27 +201,38 @@ function App() {
     }
 
     if (!isUsed) {
-      setPlayer(oldValue => oldValue === 1 ? 2 : 1)
+      setPlayer(oldPlayer => oldPlayer === 1 ? 2 : 1)
     }
   }
 
   return (
     <div className="App">
-      <div className='table'>
-        {rows.map((row, rowIndex) => (
-          <div className="row" key={rowIndex}>
-            {cols.map((col, colIndex) => (
-              <div
-                className='cell'
-                data-x={colIndex}
-                data-y={rowIndex}
-                data-used-by={undefined}
-                onClick={handleClick}
-                key={colIndex}>
-              </div>
-            ))}
-          </div>
-        ))}
+      <h1>{player === 1 ? "Karoly's turn" : "Joanna's turn"}</h1>
+      <div className='container'>
+        <div className='player-house'>
+          <h2>Karoly</h2>
+          <h3>Score: {scores.playerOne}</h3>
+        </div>
+        <div className='table'>
+          {rows.map((row, rowIndex) => (
+            <div className="row" key={rowIndex}>
+              {cols.map((col, colIndex) => (
+                <div
+                  className='cell'
+                  data-x={colIndex}
+                  data-y={rowIndex}
+                  data-used-by={undefined}
+                  onClick={handleClick}
+                  key={colIndex}>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className='player-house'>
+          <h2>Joanna</h2>
+          <h3>Score: {scores.playerTwo}</h3>
+        </div>
       </div>
     </div>
   );
