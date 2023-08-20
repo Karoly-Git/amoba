@@ -197,8 +197,7 @@ function App() {
                 data-y={rowIndex}
                 data-used-by={undefined}
                 onClick={handleClick}
-                key={colIndex}
-              >
+                key={colIndex}>
               </div>
             ))}
           </div>
