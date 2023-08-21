@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './css/App.css'
 
-const GRID_WIDTH = 15;
-const GRID_HEIGHT = 15;
+const GRID_WIDTH = 10;
+const GRID_HEIGHT = 10;
 const P1_COLOR = 'yellow';
 const P2_COLOR = 'red';
 const WIN_LIMIT = 3;
