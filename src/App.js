@@ -25,6 +25,8 @@ function App() {
   const checkWin = (coordinateX, coordinateY, player) => {
     let countHorizontal = 0;
     let countVertical = 0;
+    let countDiagonal1 = 1; // Top-Left to Right-Bottom
+    let countDiagonal2 = 1; // Top-Right to Bottom-Left
 
     let x = coordinateX;
     let y = coordinateY;
@@ -54,7 +56,41 @@ function App() {
       countVertical++;
     }
 
-    console.log('----------------', 'Horizontal:', countHorizontal, 'Vertical:', countVertical);
+    // Diagonal check (top-left to bottom-right)
+    x = coordinateX + 1;
+    y = coordinateY + 1;
+    while (x < GRID_WIDTH && y < GRID_HEIGHT && table[y][x] === player) {
+      x++;
+      y++;
+      countDiagonal1++;
+    }
+
+    x = coordinateX - 1;
+    y = coordinateY - 1;
+    while (x >= 0 && y >= 0 && table[y][x] === player) {
+      x--;
+      y--;
+      countDiagonal1++;
+    }
+
+    // Diagonal check (top-right to bottom-left)
+    x = coordinateX - 1;
+    y = coordinateY + 1;
+    while (x >= 0 && y < GRID_HEIGHT && table[y][x] === player) {
+      x--;
+      y++;
+      countDiagonal2++;
+    }
+
+    x = coordinateX + 1;
+    y = coordinateY - 1;
+    while (x < GRID_WIDTH && y >= 0 && table[y][x] === player) {
+      x++;
+      y--;
+      countDiagonal2++;
+    }
+
+    console.log(`Player-${activePlayer}:`, 'Horizontal:', countHorizontal, 'Vertical:', countVertical, 'Diagonal-1:', countDiagonal1, 'Diagonal-2:', countDiagonal2);
   };
 
 
