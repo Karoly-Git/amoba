@@ -3,14 +3,15 @@ import './css/App.css'
 
 const GRID_WIDTH = 8;
 const GRID_HEIGHT = 8;
-const P1_COLOR = 'red';
-const P2_COLOR = 'blue';
+const P1_COLOR = 'white';
+const P2_COLOR = 'black';
 const WIN_LIMIT = 3;
 
 function App() {
 
   const [activePlayer, setActivePlayer] = useState(1);
   const [gameFinished, setGameFinished] = useState(false);
+  const [scores, setScores] = useState({ playerOne: 0, playerTwo: 0 });
 
   // #1, generate table
   // #2: Generate board
@@ -94,6 +95,11 @@ function App() {
 
     if (countHorizontal >= WIN_LIMIT || countVertical >= WIN_LIMIT || countDiagonal1 >= WIN_LIMIT || countDiagonal2 >= WIN_LIMIT) {
       console.log(`Player-${activePlayer} won!`);
+      setScores(prevScores => ({
+        ...prevScores,
+        playerOne: activePlayer === 1 ? prevScores.playerOne + 1 : prevScores.playerOne,
+        playerTwo: activePlayer === 2 ? prevScores.playerTwo + 1 : prevScores.playerTwo,
+      }));
       setGameFinished(oldValue => oldValue = true);
     };
 
@@ -106,9 +112,9 @@ function App() {
       disk.style.display = 'none';
     });
     let newTable = new Array(GRID_HEIGHT).fill().map(() => new Array(GRID_WIDTH).fill(0));
-    setTable(oldTable => oldTable = [...newTable]);
+    setTable([...newTable]);
     setActivePlayer(oldPlayer => oldPlayer = 1);
-    setGameFinished(oldValue => oldValue = false);
+    setGameFinished(prevValue => prevValue = false);
   };
 
   // #3
@@ -126,14 +132,14 @@ function App() {
       } else {
         child.style.display = 'flex';
         child.style.backgroundColor = activePlayer === 1 ? P1_COLOR : P2_COLOR;
-        setActivePlayer(oldPlayer => oldPlayer === 1 ? 2 : 1);
+        setActivePlayer(prevPlayer => prevPlayer === 1 ? 2 : 1);
 
         // Clone new table
         let newTable = [...table];
         newTable[y][x] = activePlayer === 1 ? 1 : 2;
         //console.table(newTable);
         // Set table
-        setTable(oldTable => oldTable = [...newTable]);
+        setTable([...newTable]);
 
         //console.table(newTable);
 
@@ -147,19 +153,35 @@ function App() {
   return (
     <div className="App">
       <div className='container'>
+        <div className='player-house'>
+          <h2>
+            Player-1
+          </h2>
+          <h2>
+            {scores.playerOne}
+          </h2>
+        </div>
         <div className='board'>
           {table.map((row, rowIndex) => (
             <div className='row' key={rowIndex}>
               {row.map((col, colIndex) => (
                 <div className='cell' key={colIndex} data-child-id={`${colIndex}${rowIndex}`} onClick={handleClick}>
-                  <div className='disk' id={`${colIndex}${rowIndex}`}>{colIndex}{rowIndex}</div>
+                  <div className='disk' id={`${colIndex}${rowIndex}`}></div>
                 </div>
               ))}
             </div>
           ))}
         </div>
-        <button onClick={startNewGame}>New Game</button>
+        <div className='player-house'>
+          <h2>
+            Player-2
+          </h2>
+          <h2>
+            {scores.playerTwo}
+          </h2>
+        </div>
       </div>
+      {gameFinished && <button className='reset-button' onClick={startNewGame}>New Game</button>}
     </div>
   );
 }
