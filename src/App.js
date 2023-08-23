@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './css/App.css'
 
-const GRID_WIDTH = 8;
-const GRID_HEIGHT = 8;
+const GRID_WIDTH = 12;
+const GRID_HEIGHT = 12;
 const P1_COLOR = 'white';
 const P2_COLOR = 'black';
-const WIN_LIMIT = 3;
+const WIN_LIMIT = 5;
 
 function App() {
 
