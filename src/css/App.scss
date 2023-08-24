@@ -161,7 +161,7 @@ body {
   }
 
   footer {
-    display: none;
+    display: flex;
   }
 
   .reset-button {
@@ -177,20 +177,6 @@ body {
 
     &:hover {
       background-color: darken($accent-color, 10%);
-    }
-  }
-}
-
-@media only screen and (max-width: 950px) {
-  .App {
-    .container {
-      .player-house {
-        display: none;
-      }
-    }
-
-    footer {
-      display: flex;
     }
   }
 }
