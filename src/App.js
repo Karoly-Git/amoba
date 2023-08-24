@@ -4,8 +4,12 @@ import './css/App.css'
 import { BsGear as GearIcon } from 'react-icons/bs';
 import { MdDone as DoneIcon } from 'react-icons/md';
 
-const GRID_WIDTH = 12;
-const GRID_HEIGHT = 12;
+// Whay if GRID_WIDTH or GRID_HEIGHT > 10 -> Indexing??
+// What if board full, but no winner?
+// Shouldn't manipulate DOM directly, should use state instead.
+
+const GRID_WIDTH = 10;
+const GRID_HEIGHT = 10;
 const P1_COLOR = 'white';
 const P2_COLOR = 'black';
 const WIN_LIMIT = 5;
@@ -142,7 +146,7 @@ function App() {
       // Get position in the table
       let x = Number(childId[0]);
       let y = Number(childId[1]);
-      //console.log(x, y);
+      console.log(x, y);
       if (table[y][x] !== 0) {
         console.log('Sorry, cannot chose this!')
       } else {
