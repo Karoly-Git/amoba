@@ -8,7 +8,7 @@ const GRID_WIDTH = 12;
 const GRID_HEIGHT = 12;
 const P1_COLOR = 'white';
 const P2_COLOR = 'black';
-const WIN_LIMIT = 5;
+const WIN_LIMIT = 3;
 
 
 function App() {
@@ -17,6 +17,8 @@ function App() {
   const [gameFinished, setGameFinished] = useState(false);
 
   const [scores, setScores] = useState({ playerOne: 0, playerTwo: 0 });
+
+  const [winnerIs, setWinnerIs] = useState('');
 
   const [namePlayerOne, setNamePlayerOne] = useState('PLAYER-1');
   const [namePlayerTwo, setNamePlayerTwo] = useState('PLAYER-2');
@@ -114,6 +116,7 @@ function App() {
         playerTwo: activePlayer === 2 ? prevScores.playerTwo + 1 : prevScores.playerTwo,
       }));
       setGameFinished(oldValue => oldValue = true);
+      setWinnerIs(prevWinner => prevWinner = activePlayer === 1 ? namePlayerOne : namePlayerTwo);
     };
 
     // console.log(`Player-${activePlayer}:`, 'Horizontal:', countHorizontal, 'Vertical:', countVertical, 'Diagonal-1:', countDiagonal1, 'Diagonal-2:', countDiagonal2);
@@ -158,8 +161,6 @@ function App() {
 
         checkWin(x, y, activePlayer);
       }
-    } else {
-      console.log('Game has finished!');
     }
   };
 
@@ -204,15 +205,22 @@ function App() {
 
   return (
     <div className="App">
-      <h2></h2>
+      {!gameFinished && <div className='display'>
+        <span className='player-color-sign' style={activePlayer === 1 ? { backgroundColor: `${P1_COLOR}` } : { backgroundColor: `${P2_COLOR}` }}></span>
+        <h2>{activePlayer === 1 ? namePlayerOne : namePlayerTwo}'s turn</h2>
+      </div>}
+      {gameFinished && <div className='display'>
+        <h2>{winnerIs} won!</h2>
+      </div>}
       <div className='container'>
         <div className='player-house'>
           <h2>
+            <span className='player-color-sign' style={{ backgroundColor: `${P1_COLOR}` }}></span>
             {namePlayerOne}
           </h2>
-          <h2>
+          <h3>
             Score: {scores.playerOne}
-          </h2>
+          </h3>
           <div className='icon-box'>
             <GearIcon onClick={handleGearClick} data-player-number={1} className='icon' />
           </div>
@@ -234,11 +242,12 @@ function App() {
         </div>
         <div className='player-house'>
           <h2>
+            <span className='player-color-sign' style={{ backgroundColor: `${P2_COLOR}` }}></span>
             {namePlayerTwo}
           </h2>
-          <h2>
+          <h3>
             Score: {scores.playerTwo}
-          </h2>
+          </h3>
           <div className='icon-box'>
             <GearIcon onClick={handleGearClick} data-player-number={2} className='icon' />
           </div>

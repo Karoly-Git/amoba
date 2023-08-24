@@ -1,14 +1,35 @@
-$primary-color: white; //#3498db;
-$secondary-color: #e74c3c;
+$primary-color: #f9f9f9;
+$secondary-color: #3498db; // A cool blue color
+$accent-color: #e74c3c;
+$cool-text-color: #2c3e50; // A deep blue color for text
+$fancy-text-color: #c0392b; // A fancy red color for text
+$heading-font: 'Helvetica', sans-serif;
+$body-font: 'Arial', sans-serif;
 
 body {
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: #ecf0f1; // Light gray background
+  font-family: $body-font;
+}
+
+.player-color-sign {
+  border-radius: 50%;
+  margin-right: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .App {
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: $body-font;
+
+  .display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $secondary-color;
+  }
 
   .container {
     display: flex;
@@ -21,16 +42,28 @@ body {
       flex-direction: column;
       align-items: center;
       padding: 20px;
-      background-color: #f0f0f0;
+      background-color: #d7d1d1;
       border-radius: 10px;
       margin: 10px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-      min-width: 160px;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+      min-width: 180px;
 
       h2 {
+        width: 100%;
+        display: flex;
+        align-items: center;
         margin: 5px;
         font-size: 18px;
-        color: #333;
+        color: $fancy-text-color;
+        font-family: $heading-font;
+      }
+
+      h3 {
+        width: 100%;
+        margin: 5px;
+        font-size: 16px;
+        color: $fancy-text-color;
+        padding-left: 2rem;
       }
 
       .icon-box {
@@ -39,7 +72,15 @@ body {
         width: 100%;
 
         .icon {
+          font-size: 1.5rem;
+          color: $accent-color;
+          margin-left: 1rem;
           cursor: pointer;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: darken($accent-color, 10%);
+          }
         }
       }
 
@@ -50,15 +91,28 @@ body {
         margin-top: 1rem;
 
         .name-input {
-          padding: 0.25rem 0.5rem;
-          width: 6rem;
+          padding: 0.5rem;
+          width: 8rem;
+          border: 1px solid $accent-color;
+          border-radius: 5px;
+          color: $cool-text-color;
+          transition: border-color 0.3s ease;
+
+          &:focus {
+            outline: none;
+            border-color: darken($accent-color, 10%);
+          }
         }
 
         .icon {
-          font-size: 1.5rem;
-          color: green;
-          margin-left: 1rem;
+          font-size: 1.8rem;
+          color: $secondary-color;
           cursor: pointer;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: darken($secondary-color, 10%);
+          }
         }
       }
     }
@@ -80,8 +134,8 @@ body {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 2rem;
-          height: 2rem;
+          width: 2.5rem;
+          height: 2.5rem;
           cursor: pointer;
           transition: background-color 0.3s ease;
 
@@ -93,13 +147,13 @@ body {
             display: none;
             justify-content: center;
             align-items: center;
-            width: 70%;
-            height: 70%;
+            width: 80%;
+            height: 80%;
             border-radius: 50%;
             pointer-events: none;
-            color: white;
+            color: $cool-text-color;
             font-weight: bold;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             transition: background-color 0.3s ease;
           }
         }
@@ -108,7 +162,7 @@ body {
   }
 
   .reset-button {
-    background-color: #ff6347;
+    background-color: $accent-color;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -119,7 +173,7 @@ body {
     transition: background-color 0.3s ease;
 
     &:hover {
-      background-color: #d32f2f;
+      background-color: darken($accent-color, 10%);
     }
   }
 }
