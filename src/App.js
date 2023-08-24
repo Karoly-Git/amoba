@@ -1,17 +1,30 @@
 import React, { useState } from 'react';
 import './css/App.css'
 
+import { BsGear as GearIcon } from 'react-icons/bs';
+import { MdDone as DoneIcon } from 'react-icons/md';
+
 const GRID_WIDTH = 12;
 const GRID_HEIGHT = 12;
 const P1_COLOR = 'white';
 const P2_COLOR = 'black';
 const WIN_LIMIT = 5;
 
+
 function App() {
 
   const [activePlayer, setActivePlayer] = useState(1);
   const [gameFinished, setGameFinished] = useState(false);
+
   const [scores, setScores] = useState({ playerOne: 0, playerTwo: 0 });
+
+  const [namePlayerOne, setNamePlayerOne] = useState('PLAYER-1');
+  const [namePlayerTwo, setNamePlayerTwo] = useState('PLAYER-2');
+
+  const [isInputOneVisible, setIsInputOneVisible] = useState(false);
+  const [isInputTwoVisible, setIsInputTwoVisible] = useState(false);
+
+  const [nameInput, setNameInput] = useState('');
 
   // #1, generate table
   // #2: Generate board
@@ -118,7 +131,7 @@ function App() {
   };
 
   // #3
-  const handleClick = (e) => {
+  const handleCellClick = (e) => {
     if (!gameFinished) {
       let childId = e.target.getAttribute('data-child-id');
       let child = document.getElementById(`${childId}`);
@@ -150,22 +163,72 @@ function App() {
     }
   };
 
+  const handleGearClick = (e) => {
+    console.log('Gear Clicked');
+    let playerNumber = Number(e.target.getAttribute('data-player-number'));
+    if (playerNumber === 1) {
+      setIsInputOneVisible(!isInputOneVisible);
+    }
+    if (playerNumber === 2) {
+      setIsInputTwoVisible(!isInputTwoVisible);
+    }
+    setNameInput('');
+  };
+
+  const handleDoneClick = (e) => {
+    let playerNumber = Number(e.target.getAttribute('data-player-number'));
+    if (playerNumber === 1) {
+      setIsInputOneVisible(false);
+      if (nameInput) setNamePlayerOne(nameInput);
+    }
+    if (playerNumber === 2) {
+      setIsInputTwoVisible(false);
+      if (nameInput) setNamePlayerTwo(nameInput);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    console.log('Enter down');
+    console.log(e.key);
+    let playerNumber = Number(e.target.getAttribute('data-player-number'));
+    if (playerNumber === 1 && e.key === 'Enter') {
+      setIsInputOneVisible(false);
+      if (nameInput) setNamePlayerOne(nameInput);
+    }
+    if (playerNumber === 2 && e.key === 'Enter') {
+      setIsInputTwoVisible(false);
+      if (nameInput) setNamePlayerTwo(nameInput);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setNameInput(e.currentTarget.value.toUpperCase());
+  };
+
   return (
     <div className="App">
+      <h2></h2>
       <div className='container'>
         <div className='player-house'>
           <h2>
-            Player-1
+            {namePlayerOne}
           </h2>
           <h2>
-            {scores.playerOne}
+            Score: {scores.playerOne}
           </h2>
+          <div className='icon-box'>
+            <GearIcon onClick={handleGearClick} data-player-number={1} className='icon' />
+          </div>
+          {isInputOneVisible && <div className='settings-box'>
+            <input onChange={handleInputChange} onKeyDown={handleKeyPress} data-player-number={1} className='name-input' placeholder='Change name'></input>
+            <DoneIcon onClick={handleDoneClick} data-player-number={1} className='icon' />
+          </div>}
         </div>
         <div className='board'>
           {table.map((row, rowIndex) => (
             <div className='row' key={rowIndex}>
               {row.map((col, colIndex) => (
-                <div className='cell' key={colIndex} data-child-id={`${colIndex}${rowIndex}`} onClick={handleClick}>
+                <div className='cell' key={colIndex} data-child-id={`${colIndex}${rowIndex}`} onClick={handleCellClick}>
                   <div className='disk' id={`${colIndex}${rowIndex}`}></div>
                 </div>
               ))}
@@ -174,11 +237,18 @@ function App() {
         </div>
         <div className='player-house'>
           <h2>
-            Player-2
+            {namePlayerTwo}
           </h2>
           <h2>
-            {scores.playerTwo}
+            Score: {scores.playerTwo}
           </h2>
+          <div className='icon-box'>
+            <GearIcon onClick={handleGearClick} data-player-number={2} className='icon' />
+          </div>
+          {isInputTwoVisible && <div className='settings-box'>
+            <input onChange={handleInputChange} onKeyDown={handleKeyPress} data-player-number={2} className='name-input' placeholder='Change name'></input>
+            <DoneIcon onClick={handleDoneClick} data-player-number={2} className='icon' />
+          </div>}
         </div>
       </div>
       {gameFinished && <button className='reset-button' onClick={startNewGame}>New Game</button>}

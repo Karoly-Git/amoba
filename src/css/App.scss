@@ -1,4 +1,4 @@
-$primary-color: #3498db;
+$primary-color: white; //#3498db;
 $secondary-color: #e74c3c;
 
 body {
@@ -25,6 +25,7 @@ body {
       border-radius: 10px;
       margin: 10px;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      min-width: 160px;
 
       h2 {
         margin: 5px;
@@ -32,9 +33,33 @@ body {
         color: #333;
       }
 
-      h2:last-child {
-        font-size: 24px;
-        color: $secondary-color;
+      .icon-box {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+
+        .icon {
+          cursor: pointer;
+        }
+      }
+
+      .settings-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+
+        .name-input {
+          padding: 0.25rem 0.5rem;
+          width: 6rem;
+        }
+
+        .icon {
+          font-size: 1.5rem;
+          color: green;
+          margin-left: 1rem;
+          cursor: pointer;
+        }
       }
     }
 
@@ -50,7 +75,7 @@ body {
         display: flex;
 
         .cell {
-          margin: 1.5px;
+          margin: 1px;
           background-color: $secondary-color;
           display: flex;
           align-items: center;
@@ -58,7 +83,6 @@ body {
           width: 2rem;
           height: 2rem;
           cursor: pointer;
-          border-radius: 5px;
           transition: background-color 0.3s ease;
 
           &:hover {

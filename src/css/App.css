@@ -22,21 +22,42 @@ body {
   border-radius: 10px;
   margin: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  min-width: 160px;
 }
 .App .container .player-house h2 {
   margin: 5px;
   font-size: 18px;
   color: #333;
 }
-.App .container .player-house h2:last-child {
-  font-size: 24px;
-  color: #e74c3c;
+.App .container .player-house .icon-box {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+.App .container .player-house .icon-box .icon {
+  cursor: pointer;
+}
+.App .container .player-house .settings-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+.App .container .player-house .settings-box .name-input {
+  padding: 0.25rem 0.5rem;
+  width: 6rem;
+}
+.App .container .player-house .settings-box .icon {
+  font-size: 1.5rem;
+  color: green;
+  margin-left: 1rem;
+  cursor: pointer;
 }
 .App .container .board {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #3498db;
+  background-color: white;
   border-radius: 10px;
   padding: 20px;
 }
@@ -44,7 +65,7 @@ body {
   display: flex;
 }
 .App .container .board .row .cell {
-  margin: 1.5px;
+  margin: 1px;
   background-color: #e74c3c;
   display: flex;
   align-items: center;
@@ -52,7 +73,6 @@ body {
   width: 2rem;
   height: 2rem;
   cursor: pointer;
-  border-radius: 5px;
   transition: background-color 0.3s ease;
 }
 .App .container .board .row .cell:hover {
