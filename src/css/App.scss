@@ -18,6 +18,87 @@ body {
   height: 1.5rem;
 }
 
+.player-house {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #d7d1d1;
+  border-radius: 10px;
+  margin: 10px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  //min-width: 180px;
+
+  h2 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    font-size: 18px;
+    color: $fancy-text-color;
+    font-family: $heading-font;
+  }
+
+  h3 {
+    width: 100%;
+    margin: 5px;
+    font-size: 16px;
+    color: $fancy-text-color;
+    padding-left: 2rem;
+  }
+
+  .icon-box {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+
+    .icon {
+      font-size: 1.5rem;
+      color: $accent-color;
+      margin-left: 1rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: darken($accent-color, 10%);
+      }
+    }
+  }
+
+  .settings-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+
+    .name-input {
+      padding: 0.5rem;
+      width: 8rem;
+      border: 1px solid $accent-color;
+      border-radius: 5px;
+      color: $cool-text-color;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: darken($accent-color, 10%);
+      }
+    }
+
+    .icon {
+      font-size: 1.8rem;
+      color: $secondary-color;
+      cursor: pointer;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: darken($secondary-color, 10%);
+      }
+    }
+  }
+}
+
 .App {
   display: flex;
   flex-direction: column;
@@ -34,88 +115,6 @@ body {
   .container {
     display: flex;
     justify-content: center;
-    padding: 2rem 0;
-
-    .player-house {
-      display: flex;
-      height: 100%;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      background-color: #d7d1d1;
-      border-radius: 10px;
-      margin: 10px;
-      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-      min-width: 180px;
-
-      h2 {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        margin: 5px;
-        font-size: 18px;
-        color: $fancy-text-color;
-        font-family: $heading-font;
-      }
-
-      h3 {
-        width: 100%;
-        margin: 5px;
-        font-size: 16px;
-        color: $fancy-text-color;
-        padding-left: 2rem;
-      }
-
-      .icon-box {
-        display: flex;
-        justify-content: flex-end;
-        width: 100%;
-
-        .icon {
-          font-size: 1.5rem;
-          color: $accent-color;
-          margin-left: 1rem;
-          cursor: pointer;
-          transition: color 0.3s ease;
-
-          &:hover {
-            color: darken($accent-color, 10%);
-          }
-        }
-      }
-
-      .settings-box {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 1rem;
-
-        .name-input {
-          padding: 0.5rem;
-          width: 8rem;
-          border: 1px solid $accent-color;
-          border-radius: 5px;
-          color: $cool-text-color;
-          transition: border-color 0.3s ease;
-
-          &:focus {
-            outline: none;
-            border-color: darken($accent-color, 10%);
-          }
-        }
-
-        .icon {
-          font-size: 1.8rem;
-          color: $secondary-color;
-          cursor: pointer;
-          transition: color 0.3s ease;
-
-          &:hover {
-            color: darken($secondary-color, 10%);
-          }
-        }
-      }
-    }
 
     .board {
       display: flex;
@@ -123,7 +122,7 @@ body {
       align-items: center;
       background-color: $primary-color;
       border-radius: 10px;
-      padding: 20px;
+      padding: 1rem;
 
       .row {
         display: flex;
@@ -161,6 +160,10 @@ body {
     }
   }
 
+  footer {
+    display: none;
+  }
+
   .reset-button {
     background-color: $accent-color;
     color: white;
@@ -174,6 +177,20 @@ body {
 
     &:hover {
       background-color: darken($accent-color, 10%);
+    }
+  }
+}
+
+@media only screen and (max-width: 950px) {
+  .App {
+    .container {
+      .player-house {
+        display: none;
+      }
+    }
+
+    footer {
+      display: flex;
     }
   }
 }

@@ -3,6 +3,7 @@ import './css/App.css'
 
 import { BsGear as GearIcon } from 'react-icons/bs';
 import { MdDone as DoneIcon } from 'react-icons/md';
+import PlayerHouse from './components/PlayerHouse';
 
 // Whay if GRID_WIDTH or GRID_HEIGHT > 10 -> Indexing??
 // What if board full, but no winner?
@@ -12,7 +13,7 @@ const GRID_WIDTH = 10;
 const GRID_HEIGHT = 10;
 const P1_COLOR = 'white';
 const P2_COLOR = 'black';
-const WIN_LIMIT = 5;
+const WIN_LIMIT = 3;
 
 
 function App() {
@@ -217,22 +218,17 @@ function App() {
         <h2>{winnerIs} won!</h2>
       </div>}
       <div className='container'>
-        <div className='player-house'>
-          <h2>
-            <span className='player-color-sign' style={{ backgroundColor: `${P1_COLOR}` }}></span>
-            {namePlayerOne}
-          </h2>
-          <h3>
-            Score: {scores.playerOne}
-          </h3>
-          <div className='icon-box'>
-            <GearIcon onClick={handleGearClick} data-player-number={1} className='icon' />
-          </div>
-          {isInputOneVisible && <div className='settings-box'>
-            <input onChange={handleInputChange} onKeyDown={handleKeyPress} data-player-number={1} className='name-input' placeholder='Change name'></input>
-            <DoneIcon onClick={handleDoneClick} data-player-number={1} className='icon' />
-          </div>}
-        </div>
+        <PlayerHouse
+          playerColor={P1_COLOR}
+          playerName={namePlayerOne}
+          playerNumber={1}
+          playerScore={scores.playerOne}
+          handleGearClick={handleGearClick}
+          isInputOneVisible={isInputOneVisible}
+          handleInputChange={handleInputChange}
+          handleKeyPress={handleKeyPress}
+          handleDoneClick={handleDoneClick}
+        />
         <div className='board'>
           {table.map((row, rowIndex) => (
             <div className='row' key={rowIndex}>
@@ -244,23 +240,42 @@ function App() {
             </div>
           ))}
         </div>
-        <div className='player-house'>
-          <h2>
-            <span className='player-color-sign' style={{ backgroundColor: `${P2_COLOR}` }}></span>
-            {namePlayerTwo}
-          </h2>
-          <h3>
-            Score: {scores.playerTwo}
-          </h3>
-          <div className='icon-box'>
-            <GearIcon onClick={handleGearClick} data-player-number={2} className='icon' />
-          </div>
-          {isInputTwoVisible && <div className='settings-box'>
-            <input onChange={handleInputChange} onKeyDown={handleKeyPress} data-player-number={2} className='name-input' placeholder='Change name'></input>
-            <DoneIcon onClick={handleDoneClick} data-player-number={2} className='icon' />
-          </div>}
-        </div>
+        <PlayerHouse
+          playerColor={P2_COLOR}
+          playerName={namePlayerTwo}
+          playerNumber={2}
+          isInputOneVisible={isInputTwoVisible}
+          playerScore={scores.playerTwo}
+          handleGearClick={handleGearClick}
+          handleInputChange={handleInputChange}
+          handleKeyPress={handleKeyPress}
+          handleDoneClick={handleDoneClick}
+        />
       </div>
+      <footer>
+        <PlayerHouse
+          playerColor={P1_COLOR}
+          playerName={namePlayerOne}
+          playerNumber={1}
+          playerScore={scores.playerOne}
+          handleGearClick={handleGearClick}
+          isInputOneVisible={isInputOneVisible}
+          handleInputChange={handleInputChange}
+          handleKeyPress={handleKeyPress}
+          handleDoneClick={handleDoneClick}
+        />
+        <PlayerHouse
+          playerColor={P2_COLOR}
+          playerName={namePlayerTwo}
+          playerNumber={2}
+          isInputOneVisible={isInputTwoVisible}
+          playerScore={scores.playerTwo}
+          handleGearClick={handleGearClick}
+          handleInputChange={handleInputChange}
+          handleKeyPress={handleKeyPress}
+          handleDoneClick={handleDoneClick}
+        />
+      </footer>
       {gameFinished && <button className='reset-button' onClick={startNewGame}>New Game</button>}
     </div>
   );

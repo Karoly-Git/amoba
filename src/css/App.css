@@ -10,6 +10,76 @@ body {
   height: 1.5rem;
 }
 
+.player-house {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #d7d1d1;
+  border-radius: 10px;
+  margin: 10px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+.player-house h2 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 5px;
+  font-size: 18px;
+  color: #c0392b;
+  font-family: "Helvetica", sans-serif;
+}
+.player-house h3 {
+  width: 100%;
+  margin: 5px;
+  font-size: 16px;
+  color: #c0392b;
+  padding-left: 2rem;
+}
+.player-house .icon-box {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+.player-house .icon-box .icon {
+  font-size: 1.5rem;
+  color: #e74c3c;
+  margin-left: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.player-house .icon-box .icon:hover {
+  color: #d62c1a;
+}
+.player-house .settings-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+.player-house .settings-box .name-input {
+  padding: 0.5rem;
+  width: 8rem;
+  border: 1px solid #e74c3c;
+  border-radius: 5px;
+  color: #2c3e50;
+  transition: border-color 0.3s ease;
+}
+.player-house .settings-box .name-input:focus {
+  outline: none;
+  border-color: #d62c1a;
+}
+.player-house .settings-box .icon {
+  font-size: 1.8rem;
+  color: #3498db;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.player-house .settings-box .icon:hover {
+  color: #217dbb;
+}
+
 .App {
   display: flex;
   flex-direction: column;
@@ -25,77 +95,6 @@ body {
 .App .container {
   display: flex;
   justify-content: center;
-  padding: 2rem 0;
-}
-.App .container .player-house {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #d7d1d1;
-  border-radius: 10px;
-  margin: 10px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-  min-width: 180px;
-}
-.App .container .player-house h2 {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  margin: 5px;
-  font-size: 18px;
-  color: #c0392b;
-  font-family: "Helvetica", sans-serif;
-}
-.App .container .player-house h3 {
-  width: 100%;
-  margin: 5px;
-  font-size: 16px;
-  color: #c0392b;
-  padding-left: 2rem;
-}
-.App .container .player-house .icon-box {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-}
-.App .container .player-house .icon-box .icon {
-  font-size: 1.5rem;
-  color: #e74c3c;
-  margin-left: 1rem;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-.App .container .player-house .icon-box .icon:hover {
-  color: #d62c1a;
-}
-.App .container .player-house .settings-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1rem;
-}
-.App .container .player-house .settings-box .name-input {
-  padding: 0.5rem;
-  width: 8rem;
-  border: 1px solid #e74c3c;
-  border-radius: 5px;
-  color: #2c3e50;
-  transition: border-color 0.3s ease;
-}
-.App .container .player-house .settings-box .name-input:focus {
-  outline: none;
-  border-color: #d62c1a;
-}
-.App .container .player-house .settings-box .icon {
-  font-size: 1.8rem;
-  color: #3498db;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-.App .container .player-house .settings-box .icon:hover {
-  color: #217dbb;
 }
 .App .container .board {
   display: flex;
@@ -103,7 +102,7 @@ body {
   align-items: center;
   background-color: #f9f9f9;
   border-radius: 10px;
-  padding: 20px;
+  padding: 1rem;
 }
 .App .container .board .row {
   display: flex;
@@ -135,6 +134,9 @@ body {
   font-size: 1.8rem;
   transition: background-color 0.3s ease;
 }
+.App footer {
+  display: none;
+}
 .App .reset-button {
   background-color: #e74c3c;
   color: white;
@@ -148,4 +150,13 @@ body {
 }
 .App .reset-button:hover {
   background-color: #d62c1a;
+}
+
+@media only screen and (max-width: 950px) {
+  .App .container .player-house {
+    display: none;
+  }
+  .App footer {
+    display: flex;
+  }
 }/*# sourceMappingURL=App.css.map */
