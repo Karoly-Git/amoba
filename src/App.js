@@ -133,7 +133,7 @@ function App() {
   // #3
   const handleCellClick = (e) => {
     if (!gameFinished) {
-      let childId = e.target.getAttribute('data-child-id');
+      let childId = e.currentTarget.getAttribute('data-child-id');
       let child = document.getElementById(`${childId}`);
 
       // Get position in the table
@@ -164,33 +164,30 @@ function App() {
   };
 
   const handleGearClick = (e) => {
-    console.log('Gear Clicked');
-    let playerNumber = Number(e.target.getAttribute('data-player-number'));
+    let playerNumber = Number(e.currentTarget.getAttribute('data-player-number'));
     if (playerNumber === 1) {
-      setIsInputOneVisible(!isInputOneVisible);
+      setIsInputOneVisible((prevValue) => !prevValue);
     }
     if (playerNumber === 2) {
-      setIsInputTwoVisible(!isInputTwoVisible);
+      setIsInputTwoVisible((prevValue) => !prevValue);
     }
     setNameInput('');
   };
 
   const handleDoneClick = (e) => {
-    let playerNumber = Number(e.target.getAttribute('data-player-number'));
+    let playerNumber = Number(e.currentTarget.getAttribute('data-player-number'));
     if (playerNumber === 1) {
-      setIsInputOneVisible(false);
+      setIsInputOneVisible((prevValue) => false);
       if (nameInput) setNamePlayerOne(nameInput);
     }
     if (playerNumber === 2) {
-      setIsInputTwoVisible(false);
+      setIsInputTwoVisible((prevValue) => false);
       if (nameInput) setNamePlayerTwo(nameInput);
     }
   };
 
   const handleKeyPress = (e) => {
-    console.log('Enter down');
-    console.log(e.key);
-    let playerNumber = Number(e.target.getAttribute('data-player-number'));
+    let playerNumber = Number(e.currentTarget.getAttribute('data-player-number'));
     if (playerNumber === 1 && e.key === 'Enter') {
       setIsInputOneVisible(false);
       if (nameInput) setNamePlayerOne(nameInput);
