@@ -1,57 +1,66 @@
 $primary-color: #f9f9f9;
-$secondary-color: #3498db; // A cool blue color
+$secondary-color: #3498db;
 $accent-color: #e74c3c;
-$cool-text-color: #2c3e50; // A deep blue color for text
-$fancy-text-color: #c0392b; // A fancy red color for text
+$cool-text-color: #2c3e50;
+$fancy-text-color: #c0392b;
 $heading-font: 'Helvetica', sans-serif;
 $body-font: 'Arial', sans-serif;
 
+// Shared button styles
+@mixin button-style {
+  background-color: $accent-color;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($accent-color, 10%);
+  }
+}
+
 body {
-  background-color: #ecf0f1; // Light gray background
+  background-color: #ecf0f1;
   font-family: $body-font;
 }
 
-.player-color-sign {
-  border-radius: 50%;
-  margin-right: 1rem;
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
 .player-house {
+  border-radius: 10px;
+  background-color: #d7d1d1;
+  padding: 20px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px;
   display: flex;
-  height: 100%;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  background-color: #d7d1d1;
-  border-radius: 10px;
-  margin: 10px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-  //min-width: 180px;
+  height: 100%;
 
   h2 {
+    margin: 5px;
     width: 100%;
     display: flex;
     align-items: center;
-    margin: 5px;
     font-size: 18px;
     color: $fancy-text-color;
     font-family: $heading-font;
   }
 
   h3 {
-    width: 100%;
     margin: 5px;
+    width: 100%;
     font-size: 16px;
     color: $fancy-text-color;
     padding-left: 2rem;
   }
 
   .icon-box {
+    width: 100%;
     display: flex;
     justify-content: flex-end;
-    width: 100%;
 
     .icon {
       font-size: 1.5rem;
@@ -67,10 +76,10 @@ body {
   }
 
   .settings-box {
+    margin-top: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1rem;
 
     .name-input {
       padding: 0.5rem;
@@ -100,16 +109,16 @@ body {
 }
 
 .App {
+  font-family: $body-font;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: $body-font;
 
   .display {
+    color: $secondary-color;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: $secondary-color;
   }
 
   .container {
@@ -117,25 +126,25 @@ body {
     justify-content: center;
 
     .board {
+      padding: 1rem;
+      background-color: $primary-color;
+      border-radius: 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      background-color: $primary-color;
-      border-radius: 10px;
-      padding: 1rem;
 
       .row {
         display: flex;
 
         .cell {
           margin: 1px;
-          background-color: $secondary-color;
-          display: flex;
-          align-items: center;
-          justify-content: center;
           width: 2.5rem;
           height: 2.5rem;
           cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: $secondary-color;
           transition: background-color 0.3s ease;
 
           &:hover {
@@ -143,16 +152,16 @@ body {
           }
 
           .disk {
+            width: 80%;
+            height: 80%;
             display: none;
             justify-content: center;
             align-items: center;
-            width: 80%;
-            height: 80%;
             border-radius: 50%;
             pointer-events: none;
-            color: $cool-text-color;
-            font-weight: bold;
             font-size: 1.8rem;
+            font-weight: bold;
+            color: $cool-text-color;
             transition: background-color 0.3s ease;
           }
         }
@@ -161,22 +170,51 @@ body {
   }
 
   footer {
-    display: flex;
+    display: none;
   }
 
   .reset-button {
-    background-color: $accent-color;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    @include button-style;
+  }
+}
 
-    &:hover {
-      background-color: darken($accent-color, 10%);
+@media only screen and (max-width: 950px) {
+  .App {
+    .container {
+      .player-house {
+        display: none;
+      }
+    }
+
+    footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      background-color: $primary-color;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .App {
+    .container {
+      .board {
+        .row {
+          .cell {
+            width: 2rem;
+            height: 2rem;
+
+            .disk {
+              font-size: 1.5rem;
+            }
+          }
+        }
+      }
     }
   }
 }

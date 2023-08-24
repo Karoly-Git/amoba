@@ -218,6 +218,17 @@ function App() {
         <h2>{winnerIs} won!</h2>
       </div>}
       <div className='container'>
+        <PlayerHouse
+          playerColor={P1_COLOR}
+          playerName={namePlayerOne}
+          playerNumber={1}
+          playerScore={scores.playerOne}
+          handleGearClick={handleGearClick}
+          isInputOneVisible={isInputOneVisible}
+          handleInputChange={handleInputChange}
+          handleKeyPress={handleKeyPress}
+          handleDoneClick={handleDoneClick}
+        />
         <div className='board'>
           {table.map((row, rowIndex) => (
             <div className='row' key={rowIndex}>
@@ -229,6 +240,17 @@ function App() {
             </div>
           ))}
         </div>
+        <PlayerHouse
+          playerColor={P2_COLOR}
+          playerName={namePlayerTwo}
+          playerNumber={2}
+          isInputOneVisible={isInputTwoVisible}
+          playerScore={scores.playerTwo}
+          handleGearClick={handleGearClick}
+          handleInputChange={handleInputChange}
+          handleKeyPress={handleKeyPress}
+          handleDoneClick={handleDoneClick}
+        />
       </div>
       <footer>
         <PlayerHouse
