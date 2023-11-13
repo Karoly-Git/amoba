@@ -1,168 +1,177 @@
-$primary-color: #f9f9f9;
-$secondary-color: #3498db;
 $accent-color: #e74c3c;
-$cool-text-color: #2c3e50;
-$fancy-text-color: #c0392b;
-$heading-font: 'Helvetica', sans-serif;
-$body-font: 'Arial', sans-serif;
+$cool-text-color: #2c3e50; // A deep blue color for text
+$fancy-text-color: #c0392b; // A fancy red color for text
 
-// Shared button styles
-@mixin button-style {
-  background-color: $accent-color;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+$cell-size: 2rem;
 
-  &:hover {
-    background-color: darken($accent-color, 10%);
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
 }
 
 body {
-  background-color: #ecf0f1;
-  font-family: $body-font;
-}
-
-.player-house {
-  border-radius: 10px;
-  background-color: #d7d1d1;
-  padding: 20px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-
-  h2 {
-    margin: 5px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    color: $fancy-text-color;
-    font-family: $heading-font;
-  }
-
-  h3 {
-    margin: 5px;
-    width: 100%;
-    font-size: 16px;
-    color: $fancy-text-color;
-    padding-left: 2rem;
-  }
-
-  .icon-box {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-
-    .icon {
-      font-size: 1.5rem;
-      color: $accent-color;
-      margin-left: 1rem;
-      cursor: pointer;
-      transition: color 0.3s ease;
-
-      &:hover {
-        color: darken($accent-color, 10%);
-      }
-    }
-  }
-
-  .settings-box {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .name-input {
-      padding: 0.5rem;
-      width: 8rem;
-      border: 1px solid $accent-color;
-      border-radius: 5px;
-      color: $cool-text-color;
-      transition: border-color 0.3s ease;
-
-      &:focus {
-        outline: none;
-        border-color: darken($accent-color, 10%);
-      }
-    }
-
-    .icon {
-      font-size: 1.8rem;
-      color: $secondary-color;
-      cursor: pointer;
-      transition: color 0.3s ease;
-
-      &:hover {
-        color: darken($secondary-color, 10%);
-      }
-    }
-  }
+  background-color: black;
 }
 
 .App {
-  font-family: $body-font;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  min-height: 100vh;
 
-  .display {
-    color: $secondary-color;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .cursor {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: capitalize;
   }
 
-  .container {
+  header {
     display: flex;
     justify-content: center;
 
-    .board {
+    .who-won {
       padding: 1rem;
-      background-color: $primary-color;
-      border-radius: 10px;
+      font-size: 1.5rem;
+    }
+  }
+
+  main {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+
+    .board {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      border: 1px solid gray;
+      padding: 3px;
+      margin: 0 2rem;
 
       .row {
         display: flex;
 
         .cell {
-          margin: 1px;
-          width: 2.5rem;
-          height: 2.5rem;
-          cursor: pointer;
           display: flex;
-          align-items: center;
           justify-content: center;
-          background-color: $secondary-color;
-          transition: background-color 0.3s ease;
+          align-items: center;
+          border: 1px solid rgba(255, 0, 0, 0.5);
+          width: 3rem;
+          height: 3rem;
+          transition: all 100ms ease;
 
           &:hover {
-            background-color: darken($secondary-color, 10%);
+            background-color: rgb(38, 70, 38);
           }
 
           .disk {
-            width: 80%;
-            height: 80%;
-            display: none;
+            display: flex;
             justify-content: center;
             align-items: center;
+            width: $cell-size;
+            height: $cell-size;
             border-radius: 50%;
-            pointer-events: none;
-            font-size: 1.8rem;
-            font-weight: bold;
+
+            .icon {
+              font-size: $cell-size;
+            }
+          }
+
+          .disk-A {
+            color: white;
+
+            .icon {
+              color: white;
+            }
+          }
+
+          .disk-B {
+            color: red;
+
+            .icon {
+              color: red;
+            }
+          }
+        }
+      }
+    }
+
+    .player-house {
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      align-items: center;
+      padding: 3px;
+      min-width: 180px;
+      max-width: 180px;
+      border: 1px solid white;
+
+      .frame {
+        width: 100%;
+        padding: 1rem;
+        background-color: cornsilk;
+
+        h2 {
+          display: flex;
+          //justify-content: space-between;
+          align-items: center;
+          margin: 5px;
+          font-size: 18px;
+          color: $fancy-text-color;
+          min-width: 100%;
+          text-transform: capitalize;
+
+          .icon {
+            background-color: gray;
+            color: white;
+            border-radius: 50%;
+            padding: 3px;
+            font-size: 2rem;
+            margin-left: auto;
+            margin-right: 0;
+          }
+        }
+
+        h3 {
+          width: 100%;
+          margin: 5px;
+          font-size: 1.5rem;
+          color: $fancy-text-color;
+        }
+
+        .settings-box {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 1rem;
+          width: 100%;
+
+          .name-input {
+            padding: 0.5rem;
+            width: 6rem;
+            border: 1px solid skyblue;
             color: $cool-text-color;
-            transition: background-color 0.3s ease;
+            background-color: rgb(250, 243, 215);
+            transition: all 350ms ease-in-out;
+
+            &:focus {
+              outline: none;
+              border-color: darken($accent-color, 10%);
+            }
+          }
+
+          .icon {
+            font-size: 1.5rem;
+            color: $accent-color;
+            cursor: pointer;
+            transition: opacity 350ms ease-in-out;
+            min-width: 1.5rem;
+
+            &:hover {
+              color: darken($accent-color, 10%);
+            }
+          }
+
+          .done-icon {
+            margin-left: -45px;
           }
         }
       }
@@ -170,50 +179,20 @@ body {
   }
 
   footer {
-    display: none;
-  }
+    display: flex;
+    flex-direction: column;
 
-  .reset-button {
-    @include button-style;
-  }
-}
+    .reset-btn {
+      font-size: 1.5rem;
+      box-shadow: none;
+      border: none;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      background-color: cornsilk;
+      margin: 0 auto;
 
-@media only screen and (max-width: 950px) {
-  .App {
-    .container {
-      .player-house {
-        display: none;
-      }
-    }
-
-    footer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 10px;
-      background-color: $primary-color;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-    }
-  }
-}
-
-@media only screen and (max-width: 500px) {
-  .App {
-    .container {
-      .board {
-        .row {
-          .cell {
-            width: 2rem;
-            height: 2rem;
-
-            .disk {
-              font-size: 1.5rem;
-            }
-          }
-        }
+      &:hover {
+        background-color: yellow;
       }
     }
   }

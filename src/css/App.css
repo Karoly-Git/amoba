@@ -1,172 +1,164 @@
-body {
-  background-color: #ecf0f1;
-  font-family: "Arial", sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
 }
 
-.player-house {
-  border-radius: 10px;
-  background-color: #d7d1d1;
-  padding: 20px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-}
-.player-house h2 {
-  margin: 5px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-  color: #c0392b;
-  font-family: "Helvetica", sans-serif;
-}
-.player-house h3 {
-  margin: 5px;
-  width: 100%;
-  font-size: 16px;
-  color: #c0392b;
-  padding-left: 2rem;
-}
-.player-house .icon-box {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-.player-house .icon-box .icon {
-  font-size: 1.5rem;
-  color: #e74c3c;
-  margin-left: 1rem;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-.player-house .icon-box .icon:hover {
-  color: #d62c1a;
-}
-.player-house .settings-box {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.player-house .settings-box .name-input {
-  padding: 0.5rem;
-  width: 8rem;
-  border: 1px solid #e74c3c;
-  border-radius: 5px;
-  color: #2c3e50;
-  transition: border-color 0.3s ease;
-}
-.player-house .settings-box .name-input:focus {
-  outline: none;
-  border-color: #d62c1a;
-}
-.player-house .settings-box .icon {
-  font-size: 1.8rem;
-  color: #3498db;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-.player-house .settings-box .icon:hover {
-  color: #217dbb;
+body {
+  background-color: black;
 }
 
 .App {
-  font-family: "Arial", sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  min-height: 100vh;
 }
-.App .display {
-  color: #3498db;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.App .cursor {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: capitalize;
 }
-.App .container {
+.App header {
   display: flex;
   justify-content: center;
 }
-.App .container .board {
+.App header .who-won {
   padding: 1rem;
-  background-color: #f9f9f9;
-  border-radius: 10px;
+  font-size: 1.5rem;
+}
+.App main {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+.App main .board {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  border: 1px solid gray;
+  padding: 3px;
+  margin: 0 2rem;
 }
-.App .container .board .row {
+.App main .board .row {
   display: flex;
 }
-.App .container .board .row .cell {
-  margin: 1px;
-  width: 2.5rem;
-  height: 2.5rem;
-  cursor: pointer;
+.App main .board .row .cell {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #3498db;
-  transition: background-color 0.3s ease;
-}
-.App .container .board .row .cell:hover {
-  background-color: #217dbb;
-}
-.App .container .board .row .cell .disk {
-  width: 80%;
-  height: 80%;
-  display: none;
   justify-content: center;
   align-items: center;
+  border: 1px solid rgba(255, 0, 0, 0.5);
+  width: 3rem;
+  height: 3rem;
+  transition: all 100ms ease;
+}
+.App main .board .row .cell:hover {
+  background-color: rgb(38, 70, 38);
+}
+.App main .board .row .cell .disk {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
-  pointer-events: none;
-  font-size: 1.8rem;
-  font-weight: bold;
+}
+.App main .board .row .cell .disk .icon {
+  font-size: 2rem;
+}
+.App main .board .row .cell .disk-A {
+  color: white;
+}
+.App main .board .row .cell .disk-A .icon {
+  color: white;
+}
+.App main .board .row .cell .disk-B {
+  color: red;
+}
+.App main .board .row .cell .disk-B .icon {
+  color: red;
+}
+.App main .player-house {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 3px;
+  min-width: 180px;
+  max-width: 180px;
+  border: 1px solid white;
+}
+.App main .player-house .frame {
+  width: 100%;
+  padding: 1rem;
+  background-color: cornsilk;
+}
+.App main .player-house .frame h2 {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+  font-size: 18px;
+  color: #c0392b;
+  min-width: 100%;
+  text-transform: capitalize;
+}
+.App main .player-house .frame h2 .icon {
+  background-color: gray;
+  color: white;
+  border-radius: 50%;
+  padding: 3px;
+  font-size: 2rem;
+  margin-left: auto;
+  margin-right: 0;
+}
+.App main .player-house .frame h3 {
+  width: 100%;
+  margin: 5px;
+  font-size: 1.5rem;
+  color: #c0392b;
+}
+.App main .player-house .frame .settings-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  width: 100%;
+}
+.App main .player-house .frame .settings-box .name-input {
+  padding: 0.5rem;
+  width: 6rem;
+  border: 1px solid skyblue;
   color: #2c3e50;
-  transition: background-color 0.3s ease;
+  background-color: rgb(250, 243, 215);
+  transition: all 350ms ease-in-out;
+}
+.App main .player-house .frame .settings-box .name-input:focus {
+  outline: none;
+  border-color: #d62c1a;
+}
+.App main .player-house .frame .settings-box .icon {
+  font-size: 1.5rem;
+  color: #e74c3c;
+  cursor: pointer;
+  transition: opacity 350ms ease-in-out;
+  min-width: 1.5rem;
+}
+.App main .player-house .frame .settings-box .icon:hover {
+  color: #d62c1a;
+}
+.App main .player-house .frame .settings-box .done-icon {
+  margin-left: -45px;
 }
 .App footer {
-  display: none;
+  display: flex;
+  flex-direction: column;
 }
-.App .reset-button {
-  background-color: #e74c3c;
-  color: white;
+.App footer .reset-btn {
+  font-size: 1.5rem;
+  box-shadow: none;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: 600;
+  padding: 1rem 2rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  background-color: cornsilk;
+  margin: 0 auto;
 }
-.App .reset-button:hover {
-  background-color: #d62c1a;
-}
-
-@media only screen and (max-width: 950px) {
-  .App .container .player-house {
-    display: none;
-  }
-  .App footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    background-color: #f9f9f9;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-  }
-}
-@media only screen and (max-width: 500px) {
-  .App .container .board .row .cell {
-    width: 2rem;
-    height: 2rem;
-  }
-  .App .container .board .row .cell .disk {
-    font-size: 1.5rem;
-  }
+.App footer .reset-btn:hover {
+  background-color: yellow;
 }/*# sourceMappingURL=App.css.map */

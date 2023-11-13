@@ -1,283 +1,171 @@
-import React, { useState } from 'react';
-import './css/App.css'
+// React Imports
+import React, { useState, useRef } from 'react';
 
-import { BsGear as GearIcon } from 'react-icons/bs';
-import { MdDone as DoneIcon } from 'react-icons/md';
+// Component Impors
+import Developer from './components/Developer';
+
+// Style Imports
+import './css/App.css';
+
+// Icon Imports
+import { AiOutlineClose as XIcon } from 'react-icons/ai';
+import { BsCircle as OIcon } from 'react-icons/bs';
+
+// Function Imports
+import { checkHorizontal, checkVertical, checkDiagonalA, checkDiagonalB } from './js/winConditionChecks'
+import { updateCellState, checkIsAvaliableCell, startNewGame } from './js/boardStateUpdates'
+import { initializeMatrix } from './js/initializeMatrix'
 import PlayerHouse from './components/PlayerHouse';
-
-// Whay if GRID_WIDTH or GRID_HEIGHT > 10 -> Indexing??
-// What if board full, but no winner?
-// Shouldn't manipulate DOM directly, should use state instead.
-
-const GRID_WIDTH = 10;
-const GRID_HEIGHT = 10;
-const P1_COLOR = 'white';
-const P2_COLOR = 'black';
-const WIN_LIMIT = 3;
-
 
 function App() {
 
-  const [activePlayer, setActivePlayer] = useState(1);
-  const [gameFinished, setGameFinished] = useState(false);
+  // Constants
+  const winCount = 5; // Number of consecutive cells required to win
+  const showIcons = true; // Toggle to show/hide player icons
+  const winningBackground = 'rgb(38, 70, 38)'; // Background color for winning cells
 
-  const [scores, setScores] = useState({ playerOne: 0, playerTwo: 0 });
+  // State Hooks //
+  // Game State Hooks
+  const [matrix, setMatrix] = useState(initializeMatrix());
 
-  const [winnerIs, setWinnerIs] = useState('');
+  // Cursor State Hooks
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [isCursor, setIsCursor] = useState(false);
 
-  const [namePlayerOne, setNamePlayerOne] = useState('PLAYER-1');
-  const [namePlayerTwo, setNamePlayerTwo] = useState('PLAYER-2');
+  // Player State Hooks
+  const [activePlayer, setActivePlayer] = useState('A');
+  const [isAvailableCell, setIsAvailableCell] = useState(true);
+  const [isWinner, setIsWinner] = useState(false);
 
-  const [isInputOneVisible, setIsInputOneVisible] = useState(false);
-  const [isInputTwoVisible, setIsInputTwoVisible] = useState(false);
+  // Player Settings State Hooks
+  const [playerA, setPlayerA] = useState('Player - 1');
+  const [playerB, setPlayerB] = useState('Player - 2');
 
-  const [nameInput, setNameInput] = useState('');
+  // Refs
+  const refA = useRef();
+  const refB = useRef();
 
-  // #1, generate table
-  // #2: Generate board
-  // #3: Click handling
-  // #4: Check if there is winner
+  // Settings State Hooks
+  const [isOpenBoxA, setIsOpenBoxA] = useState(false);
+  const [isOpenBoxB, setIsOpenBoxB] = useState(false);
 
+  // Score State Hooks
+  const [scoreA, setScoreA] = useState(0);
+  const [scoreB, setScoreB] = useState(0);
 
-  // #1
-  const [table, setTable] = useState(new Array(GRID_HEIGHT).fill().map(() => new Array(GRID_WIDTH).fill(0)));
+  // Argument Configurations
+  const winnerCheckProps = Object.values({
+    matrix, activePlayer, winCount, scoreA, scoreB,
+    setScoreA, setScoreB, setIsWinner, setMatrix,
+  });
 
-  //console.table(table);
+  const cellStateProps = Object.values({
+    matrix, setMatrix, activePlayer, setActivePlayer
+  });
 
-  // #4
-  const checkWin = (coordinateX, coordinateY, player) => {
-    let countHorizontal = 0;
-    let countVertical = 0;
-    let countDiagonal1 = 1; // Top-Left to Right-Bottom
-    let countDiagonal2 = 1; // Top-Right to Bottom-Left
+  const checkIsAvaliableCelProps = Object.values({
+    matrix, setIsAvailableCell
+  });
 
-    let x = coordinateX;
-    let y = coordinateY;
+  const startNewGameProps = Object.values({
+    isWinner, setIsWinner, setIsAvailableCell, setMatrix, initializeMatrix, activePlayer, setActivePlayer
+  });
 
-    // Horizontal check
-    while (table[y][x] === player) {
-      x++;
-      countHorizontal++;
-    }
-
-    x = coordinateX - 1;
-    while (table[y][x] === player) {
-      x--;
-      countHorizontal++;
-    }
-
-    // Vertical check
-    y = coordinateY;
-    while (table[y] && table[y][coordinateX] === player) {
-      y++;
-      countVertical++;
-    }
-
-    y = coordinateY - 1;
-    while (table[y] && table[y][coordinateX] === player) {
-      y--;
-      countVertical++;
-    }
-
-    // Diagonal check (top-left to bottom-right)
-    x = coordinateX + 1;
-    y = coordinateY + 1;
-    while (x < GRID_WIDTH && y < GRID_HEIGHT && table[y][x] === player) {
-      x++;
-      y++;
-      countDiagonal1++;
-    }
-
-    x = coordinateX - 1;
-    y = coordinateY - 1;
-    while (x >= 0 && y >= 0 && table[y][x] === player) {
-      x--;
-      y--;
-      countDiagonal1++;
-    }
-
-    // Diagonal check (top-right to bottom-left)
-    x = coordinateX - 1;
-    y = coordinateY + 1;
-    while (x >= 0 && y < GRID_HEIGHT && table[y][x] === player) {
-      x--;
-      y++;
-      countDiagonal2++;
-    }
-
-    x = coordinateX + 1;
-    y = coordinateY - 1;
-    while (x < GRID_WIDTH && y >= 0 && table[y][x] === player) {
-      x++;
-      y--;
-      countDiagonal2++;
-    }
-
-    if (countHorizontal >= WIN_LIMIT || countVertical >= WIN_LIMIT || countDiagonal1 >= WIN_LIMIT || countDiagonal2 >= WIN_LIMIT) {
-      console.log(`Player-${activePlayer} won!`);
-      setScores(prevScores => ({
-        ...prevScores,
-        playerOne: activePlayer === 1 ? prevScores.playerOne + 1 : prevScores.playerOne,
-        playerTwo: activePlayer === 2 ? prevScores.playerTwo + 1 : prevScores.playerTwo,
-      }));
-      setGameFinished(oldValue => oldValue = true);
-      setWinnerIs(prevWinner => prevWinner = activePlayer === 1 ? namePlayerOne : namePlayerTwo);
-    };
-
-    // console.log(`Player-${activePlayer}:`, 'Horizontal:', countHorizontal, 'Vertical:', countVertical, 'Diagonal-1:', countDiagonal1, 'Diagonal-2:', countDiagonal2);
+  const playerAProps = {
+    player: playerA,
+    playerIcon: <OIcon className='icon' />,
+    score: scoreA,
+    focusRef: refA,
+    setPlayer: setPlayerA,
+    isOpenBox: isOpenBoxA,
+    setIsOpenBox: setIsOpenBoxA,
   };
 
-  const startNewGame = () => {
-    const allDisks = document.querySelectorAll('.disk');
-    allDisks.forEach((disk) => {
-      disk.style.display = 'none';
-    });
-    let newTable = new Array(GRID_HEIGHT).fill().map(() => new Array(GRID_WIDTH).fill(0));
-    setTable([...newTable]);
-    setActivePlayer(oldPlayer => oldPlayer = 1);
-    setGameFinished(prevValue => prevValue = false);
+  const playerBProps = {
+    player: playerB,
+    playerIcon: <XIcon className='icon' />,
+    score: scoreB,
+    focusRef: refB,
+    setPlayer: setPlayerB,
+    isOpenBox: isOpenBoxB,
+    setIsOpenBox: setIsOpenBoxB,
   };
 
-  // #3
-  const handleCellClick = (e) => {
-    if (!gameFinished) {
-      let childId = e.currentTarget.getAttribute('data-child-id');
-      let child = document.getElementById(`${childId}`);
+  // Event Handlers
+  // Handle cell click event
+  function handleCellClick(x, y) {
+    updateCellState(x, y, ...cellStateProps);
+    checkIsAvaliableCell(...checkIsAvaliableCelProps);
+    checkHorizontal(x, y, ...winnerCheckProps)
+    checkVertical(x, y, ...winnerCheckProps);
+    checkDiagonalA(x, y, ...winnerCheckProps);
+    checkDiagonalB(x, y, ...winnerCheckProps);
+  }
 
-      // Get position in the table
-      let x = Number(childId[0]);
-      let y = Number(childId[1]);
-      console.log(x, y);
-      if (table[y][x] !== 0) {
-        console.log('Sorry, cannot chose this!')
-      } else {
-        child.style.display = 'flex';
-        child.style.backgroundColor = activePlayer === 1 ? P1_COLOR : P2_COLOR;
-        setActivePlayer(prevPlayer => prevPlayer === 1 ? 2 : 1);
+  // Handle reset button click event
+  function handleResetClick() {
+    startNewGame(...startNewGameProps)
+  }
 
-        // Clone new table
-        let newTable = [...table];
-        newTable[y][x] = activePlayer === 1 ? 1 : 2;
-        //console.table(newTable);
-        // Set table
-        setTable([...newTable]);
-
-        //console.table(newTable);
-
-        checkWin(x, y, activePlayer);
-      }
-    }
-  };
-
-  const handleGearClick = (e) => {
-    let playerNumber = Number(e.currentTarget.getAttribute('data-player-number'));
-    if (playerNumber === 1) {
-      setIsInputOneVisible((prevValue) => !prevValue);
-    }
-    if (playerNumber === 2) {
-      setIsInputTwoVisible((prevValue) => !prevValue);
-    }
-    setNameInput('');
-  };
-
-  const handleDoneClick = (e) => {
-    let playerNumber = Number(e.currentTarget.getAttribute('data-player-number'));
-    if (playerNumber === 1) {
-      setIsInputOneVisible((prevValue) => false);
-      if (nameInput) setNamePlayerOne(nameInput);
-    }
-    if (playerNumber === 2) {
-      setIsInputTwoVisible((prevValue) => false);
-      if (nameInput) setNamePlayerTwo(nameInput);
-    }
-  };
-
-  const handleKeyPress = (e) => {
-    let playerNumber = Number(e.currentTarget.getAttribute('data-player-number'));
-    if (playerNumber === 1 && e.key === 'Enter') {
-      setIsInputOneVisible(false);
-      if (nameInput) setNamePlayerOne(nameInput);
-    }
-    if (playerNumber === 2 && e.key === 'Enter') {
-      setIsInputTwoVisible(false);
-      if (nameInput) setNamePlayerTwo(nameInput);
-    }
-  };
-
-  const handleInputChange = (e) => {
-    setNameInput(e.currentTarget.value.toUpperCase());
-  };
+  // Handle mouse move event
+  function handleMouseMove(e) {
+    setCursorPosition({ x: e.clientX, y: e.clientY });
+  }
 
   return (
-    <div className="App">
-      {!gameFinished && <div className='display'>
-        <span className='player-color-sign' style={activePlayer === 1 ? { backgroundColor: `${P1_COLOR}` } : { backgroundColor: `${P2_COLOR}` }}></span>
-        <h2>{activePlayer === 1 ? namePlayerOne : namePlayerTwo}'s turn</h2>
-      </div>}
-      {gameFinished && <div className='display'>
-        <h2>{winnerIs} won!</h2>
-      </div>}
-      <div className='container'>
-        <PlayerHouse
-          playerColor={P1_COLOR}
-          playerName={namePlayerOne}
-          playerNumber={1}
-          playerScore={scores.playerOne}
-          handleGearClick={handleGearClick}
-          isInputOneVisible={isInputOneVisible}
-          handleInputChange={handleInputChange}
-          handleKeyPress={handleKeyPress}
-          handleDoneClick={handleDoneClick}
-        />
-        <div className='board'>
-          {table.map((row, rowIndex) => (
-            <div className='row' key={rowIndex}>
-              {row.map((col, colIndex) => (
-                <div className='cell' key={colIndex} data-child-id={`${colIndex}${rowIndex}`} onClick={handleCellClick}>
-                  <div className='disk' id={`${colIndex}${rowIndex}`}></div>
-                </div>
-              ))}
-            </div>
-          ))}
+    <div className="App" onMouseMove={handleMouseMove}>
+
+      {isCursor && isAvailableCell && !isWinner &&
+        <div
+          className='cursor'
+          style={{
+            top: `${cursorPosition.y - 20}px`, left: `${cursorPosition.x + 20}px`
+          }}>
+          {activePlayer === 'A' ? playerA : playerB}
         </div>
-        <PlayerHouse
-          playerColor={P2_COLOR}
-          playerName={namePlayerTwo}
-          playerNumber={2}
-          isInputOneVisible={isInputTwoVisible}
-          playerScore={scores.playerTwo}
-          handleGearClick={handleGearClick}
-          handleInputChange={handleInputChange}
-          handleKeyPress={handleKeyPress}
-          handleDoneClick={handleDoneClick}
-        />
-      </div>
+      }
+
+      <header style={isWinner || !isAvailableCell ? { backgroundColor: 'yellow' } : { backgroundColor: 'gray' }}>
+        <div
+          className='who-won'
+          style={isWinner || !isAvailableCell ? { color: 'black' } : { color: 'white' }}
+        >
+          {isWinner ? activePlayer === 'A' ? `${playerB} won!` : `${playerA} won!` : !isAvailableCell ? 'No winner!' : 'Good luck!'}
+        </div>
+      </header>
+
+      <main>
+
+        <PlayerHouse {...playerAProps} />
+
+        <div className='board' onMouseEnter={() => setIsCursor(true)} onMouseLeave={() => setIsCursor(false)}>
+          {matrix.map((row, rIndex) =>
+            <div className='row' key={rIndex}>
+              {row.map((cell, cIndex) =>
+                <div
+                  className='cell'
+                  key={cIndex}
+                  onClick={() => handleCellClick(cIndex, rIndex)}
+                  style={{
+                    backgroundColor: matrix[rIndex][cIndex].player && !isWinner ? 'unset' : matrix[rIndex][cIndex].winCell === true ? winningBackground : '',
+                    pointerEvents: isWinner ? 'none' : ''
+                  }}>
+                  {matrix[rIndex][cIndex].player === '' ? null : matrix[rIndex][cIndex].player === 'A' ? <div className='disk disk-A'>{showIcons && <OIcon className='icon' />}{!showIcons && `${cIndex}/${rIndex}`}</div> : <div className='disk disk-B'>{showIcons && <XIcon className='icon' />}{!showIcons && `${cIndex}/${rIndex}`}</div>}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        <PlayerHouse {...playerBProps} />
+
+      </main>
+
       <footer>
-        <PlayerHouse
-          playerColor={P1_COLOR}
-          playerName={namePlayerOne}
-          playerNumber={1}
-          playerScore={scores.playerOne}
-          handleGearClick={handleGearClick}
-          isInputOneVisible={isInputOneVisible}
-          handleInputChange={handleInputChange}
-          handleKeyPress={handleKeyPress}
-          handleDoneClick={handleDoneClick}
-        />
-        <PlayerHouse
-          playerColor={P2_COLOR}
-          playerName={namePlayerTwo}
-          playerNumber={2}
-          isInputOneVisible={isInputTwoVisible}
-          playerScore={scores.playerTwo}
-          handleGearClick={handleGearClick}
-          handleInputChange={handleInputChange}
-          handleKeyPress={handleKeyPress}
-          handleDoneClick={handleDoneClick}
-        />
+        <button className='reset-btn' onClick={handleResetClick}>New Game</button>
+        <Developer />
       </footer>
-      {gameFinished && <button className='reset-button' onClick={startNewGame}>New Game</button>}
-    </div>
+    </div >
   );
 }
 
